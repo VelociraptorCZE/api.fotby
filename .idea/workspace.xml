@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f75733d9-d367-489e-90d3-463f686da739" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Service/RegisterService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/PlayerRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PlayerRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/PasswordEncryptionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PasswordEncryptionService.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +106,7 @@
       <option name="presentableId" value="Default" />
       <updated>1606412465225</updated>
       <workItem from="1606412466399" duration="209000" />
-      <workItem from="1606413195570" duration="4410000" />
+      <workItem from="1606413195570" duration="9896000" />
     </task>
     <servers />
   </component>
@@ -115,9 +118,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="442" y="209" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1606415554935" />
-    <state x="591" y="135" key="NewPhpClassDialog" timestamp="1606415788033">
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606423908592">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="591" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1606415788033" />
+    <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606423908592" />
+    <state x="591" y="135" key="NewPhpClassDialog" timestamp="1606423691630">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="591" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1606423691630" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1606429953932">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1606429953932" />
   </component>
 </project>

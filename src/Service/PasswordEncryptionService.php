@@ -10,7 +10,7 @@ class PasswordEncryptionService
         return password_hash($password, PASSWORD_BCRYPT) ?: '';
     }
 
-    public function isPasswordSameAsHash(string $password, string $hash): bool
+    public function isPasswordCorrect(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
     }
