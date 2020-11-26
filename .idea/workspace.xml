@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f75733d9-d367-489e-90d3-463f686da739" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/PasswordEncryptionService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/api.fotby.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/api.fotby.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +59,12 @@
       <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle" />
     </include_path>
   </component>
   <component name="ProjectId" id="1kpzkhFV6sI1fJdaBbgbRUWyMho" />
@@ -75,11 +88,21 @@
       <option name="presentableId" value="Default" />
       <updated>1606412465225</updated>
       <workItem from="1606412466399" duration="209000" />
-      <workItem from="1606413195570" duration="240000" />
+      <workItem from="1606413195570" duration="3883000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="442" y="209" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1606415554935">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="442" y="209" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1606415554935" />
+    <state x="591" y="135" key="NewPhpClassDialog" timestamp="1606415788033">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="591" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1606415788033" />
   </component>
 </project>
