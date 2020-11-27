@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use DateTime;
+use Throwable;
 use App\Config;
 use App\Entity\Player;
 use App\Repository\PlayerRepository;
-use DateTime;
 use Doctrine\Migrations\Finder\Exception\NameIsReserved;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Throwable;
 
 class RegisterService
 {
