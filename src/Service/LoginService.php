@@ -28,10 +28,11 @@ class LoginService
     {
         try {
             $this->validatePayload($payload);
-            $this->tryLogin($payload);
+            $playerId = $this->tryLogin($payload);
 
             return [
                 'result' => true,
+                'playerId' => $playerId,
                 'playerInfo' => []
             ];
         } catch (Throwable $e) {
@@ -54,7 +55,7 @@ class LoginService
         }
     }
 
-    public function tryLogin(array $payload): void
+    public function tryLogin(array $payload): int
     {
         $player = $this->playerRepository->findPlayerByUsername($payload['username']);
         $isPasswordCorrect = $this->passwordEncryptionService->isPasswordCorrect(
@@ -65,5 +66,7 @@ class LoginService
         if ($player === null || !$isPasswordCorrect) {
             throw new InvalidArgumentException(self::DEFAULT_ERROR_MESSAGE);
         }
+
+        return $player->getId();
     }
 }
