@@ -20,6 +20,11 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
+    public function findPlayerByUsername(string $username): ?Player
+    {
+        return $this->findOneBy(['username' => $username]);
+    }
+
     public function isUsernameUnique(string $username): bool
     {
         $result = $this
