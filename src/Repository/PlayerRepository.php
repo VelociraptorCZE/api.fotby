@@ -25,13 +25,15 @@ class PlayerRepository extends ServiceEntityRepository
         return $this->findOneBy(['username' => $username]);
     }
 
-    public function isUsernameUnique(string $username): bool
+    public function isPlayerDataUnique(string $username, string $email): bool
     {
         $result = $this
             ->createQueryBuilder('player')
             ->select('player.id')
             ->andWhere('player.username = :username')
+            ->orWhere('player.email = :email')
             ->setParameter('username', $username)
+            ->setParameter('email', $email)
             ->getQuery()
             ->getArrayResult();
 

@@ -83,8 +83,8 @@ class RegisterService extends ApiService
 
     private function validatePlayerCredentials(string $username, string $email): void
     {
-        if (!$this->playerRepository->isUsernameUnique($username)) {
-            throw new NameIsReserved('This name is already taken');
+        if (!$this->playerRepository->isPlayerDataUnique($username, $email)) {
+            throw new NameIsReserved('This name or email is already taken');
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

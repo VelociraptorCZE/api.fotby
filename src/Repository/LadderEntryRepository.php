@@ -19,32 +19,26 @@ class LadderEntryRepository extends ServiceEntityRepository
         parent::__construct($registry, LadderEntry::class);
     }
 
-    // /**
-    //  * @return LadderEntry[] Returns an array of LadderEntry objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findLadderEntriesForMostGoalsScoredChallenge(): array
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $sql = <<<SQL
+        select 
+               sum(goals_scored) as value,
+               p.username
+        from ladder_entry
+        left join player p on player_id = p.id
+        group by player_id
+        order by value desc
+        limit 5
+SQL;
 
-    /*
-    public function findOneBySomeField($value): ?LadderEntry
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $connection = $this->getEntityManager()->getConnection();
+
+        $bestPlayersStatement = $connection->prepare($sql);
+        $bestPlayersStatement->execute();
+
+        return [
+            'bestPlayers' => $bestPlayersStatement->fetchAllAssociative()
+        ];
     }
-    */
 }
