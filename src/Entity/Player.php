@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Player
      * @ORM\Column(type="string", length=512)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LadderEntry::class, mappedBy="player", orphanRemoval=true)
+     */
+    private $ladderEntries;
+
+    public function __construct()
+    {
+        $this->ladderEntries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class Player
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LadderEntry[]
+     */
+    public function getLadderEntries(): Collection
+    {
+        return $this->ladderEntries;
+    }
+
+    public function addLadderEntry(LadderEntry $ladderEntry): self
+    {
+        if (!$this->ladderEntries->contains($ladderEntry)) {
+            $this->ladderEntries[] = $ladderEntry;
+            $ladderEntry->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLadderEntry(LadderEntry $ladderEntry): self
+    {
+        if ($this->ladderEntries->removeElement($ladderEntry)) {
+            // set the owning side to null (unless already changed)
+            if ($ladderEntry->getPlayer() === $this) {
+                $ladderEntry->setPlayer(null);
+            }
+        }
 
         return $this;
     }
