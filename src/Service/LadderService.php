@@ -8,6 +8,7 @@ use App\Repository\LadderEntryRepository;
 
 class LadderService extends ApiService
 {
+    protected array $requiredPayloadKeys = ['playerId'];
     protected string $defaultErrorMessage = 'Could not get ladder data';
 
     private LadderEntryRepository $ladderEntryRepository;
@@ -24,7 +25,9 @@ class LadderService extends ApiService
 
             return [
                 'result' => true,
-                'ladderData' => $this->ladderEntryRepository->findLadderEntriesForMostGoalsScoredChallenge()
+                'ladderData' => $this->ladderEntryRepository->findLadderEntriesForMostGoalsScoredChallenge(
+                    (int)$payload['playerId']
+                )
             ];
         } catch (Throwable $e) {
             return [

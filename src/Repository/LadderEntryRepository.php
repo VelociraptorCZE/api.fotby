@@ -19,7 +19,7 @@ class LadderEntryRepository extends ServiceEntityRepository
         parent::__construct($registry, LadderEntry::class);
     }
 
-    public function findLadderEntriesForMostGoalsScoredChallenge(): array
+    public function findLadderEntriesForMostGoalsScoredChallenge(int $playerId): array
     {
         $sql = <<<SQL
         select 
@@ -34,11 +34,32 @@ SQL;
 
         $connection = $this->getEntityManager()->getConnection();
 
-        $bestPlayersStatement = $connection->prepare($sql);
-        $bestPlayersStatement->execute();
+        $statement = $connection->prepare($sql);
+        $statement->execute();
 
         return [
-            'bestPlayers' => $bestPlayersStatement->fetchAllAssociative()
+            'bestPlayers' => $statement->fetchAllAssociative(),
+            'playerPosition' => $this->findLadderPlayerPositionForMostGoalsScoredChallenge($playerId)
         ];
+    }
+
+    private function findLadderPlayerPositionForMostGoalsScoredChallenge(int $playerId): array
+    {
+        $sql = <<<SQL
+        select
+               sum(goals_scored) as value,
+               p.username
+        from ladder_entry
+        left join player p on player_id = p.id
+        where player_id = :playerId
+SQL;
+
+        $connection = $this->getEntityManager()->getConnection();
+
+        $statement = $connection->prepare($sql);
+        $statement->bindParam('playerId', $playerId);
+        $statement->execute();
+
+        return $statement->fetchAssociative();
     }
 }
