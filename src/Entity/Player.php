@@ -32,6 +32,11 @@ class Player
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="string", length=512)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Player
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

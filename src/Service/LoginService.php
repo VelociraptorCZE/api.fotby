@@ -5,13 +5,12 @@ namespace App\Service;
 
 use InvalidArgumentException;
 use Throwable;
-use App\Config;
 use App\Repository\PlayerRepository;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class LoginService
+class LoginService extends ApiService
 {
-    private const DEFAULT_ERROR_MESSAGE = 'Incorrect username or password';
+    protected array $requiredPayloadKeys = ['username', 'password'];
+    protected string $defaultErrorMessage = 'Incorrect username or password';
 
     private PasswordEncryptionService $passwordEncryptionService;
     private PlayerRepository $playerRepository;
@@ -43,18 +42,6 @@ class LoginService
         }
     }
 
-    private function validatePayload(array $payload): void
-    {
-        $isPayloadValid = isset($payload['username'])
-            && isset($payload['password'])
-            && isset($payload['apiKey'])
-            && $payload['apiKey'] === Config::SECRET_API_KEY;
-
-        if (!$isPayloadValid) {
-            throw new BadRequestException(self::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
     public function tryLogin(array $payload): int
     {
         $player = $this->playerRepository->findPlayerByUsername($payload['username']);
@@ -64,7 +51,7 @@ class LoginService
         );
 
         if ($player === null || !$isPasswordCorrect) {
-            throw new InvalidArgumentException(self::DEFAULT_ERROR_MESSAGE);
+            throw new InvalidArgumentException($this->defaultErrorMessage);
         }
 
         return $player->getId();

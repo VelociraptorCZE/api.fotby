@@ -5,17 +5,16 @@ namespace App\Service;
 
 use DateTime;
 use Throwable;
-use App\Config;
 use App\Entity\Player;
 use App\Repository\PlayerRepository;
 use Doctrine\Migrations\Finder\Exception\NameIsReserved;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class RegisterService
+class RegisterService extends ApiService
 {
-    private const DEFAULT_ERROR_MESSAGE = 'Account cannot be created';
+    protected array $requiredPayloadKeys = ['email', 'username', 'password'];
+    protected string $defaultErrorMessage = 'Account cannot be created';
 
     private PasswordEncryptionService $passwordEncryptionService;
     private PlayerRepository $playerRepository;
@@ -36,11 +35,10 @@ class RegisterService
         try {
             $this->validatePayload($payload);
 
-            $username = $payload['username'];
-            $password = $payload['password'];
+            ['username' => $username, 'password' => $password, 'email' => $email] = $payload;
             $hash = $this->passwordEncryptionService->encryptPassword($password);
 
-            $this->validatePlayerName($username);
+            $this->validatePlayerCredentials($username, $email);
             $this->validatePassword($username, $password, $hash);
             $this->saveUser($username, $hash);
 
@@ -67,22 +65,10 @@ class RegisterService
         $this->entityManager->flush();
     }
 
-    private function validatePayload(array $payload): void
-    {
-        $isPayloadValid = isset($payload['username'])
-            && isset($payload['password'])
-            && isset($payload['apiKey'])
-            && $payload['apiKey'] === Config::SECRET_API_KEY;
-
-        if (!$isPayloadValid) {
-            throw new BadRequestException(self::DEFAULT_ERROR_MESSAGE);
-        }
-    }
-
     private function validatePassword(string $username, string $password, string $hash): void
     {
         if (strlen($hash) === 0) {
-            throw new InvalidArgumentException(self::DEFAULT_ERROR_MESSAGE);
+            throw new InvalidArgumentException($this->defaultErrorMessage);
         }
 
         if ($username === $password) {
@@ -94,10 +80,14 @@ class RegisterService
         }
     }
 
-    private function validatePlayerName(string $username): void
+    private function validatePlayerCredentials(string $username, string $email): void
     {
         if (!$this->playerRepository->isUsernameUnique($username)) {
             throw new NameIsReserved('This name is already taken');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Invalid email format');
         }
     }
 }
