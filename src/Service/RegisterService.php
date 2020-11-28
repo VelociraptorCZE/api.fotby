@@ -40,7 +40,7 @@ class RegisterService extends ApiService
 
             $this->validatePlayerCredentials($username, $email);
             $this->validatePassword($username, $password, $hash);
-            $this->saveUser($username, $hash);
+            $this->saveUser($username, $email, $hash);
 
             return [
                 'result' => true,
@@ -54,11 +54,12 @@ class RegisterService extends ApiService
         }
     }
 
-    private function saveUser(string $username, string $hash): void
+    private function saveUser(string $username, string $email, string $hash): void
     {
         $player = new Player;
         $player->setUsername($username);
         $player->setPassword($hash);
+        $player->setEmail($email);
         $player->setCreatedAt(new DateTime);
 
         $this->entityManager->persist($player);
