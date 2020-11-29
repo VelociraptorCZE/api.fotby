@@ -39,7 +39,7 @@ SQL;
 
         return [
             'bestPlayers' => $statement->fetchAllAssociative(),
-            'playerPosition' => $this->findLadderPlayerPositionForMostGoalsScoredChallenge($playerId)
+            'playerEntry' => $this->findLadderPlayerPositionForMostGoalsScoredChallenge($playerId)
         ];
     }
 

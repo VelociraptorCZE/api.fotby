@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Throwable;
+use App\Entity\Player;
 use App\Repository\LadderEntryRepository;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Throwable;
 
-class LadderService extends ApiService
+class LadderService
 {
-    protected array $requiredPayloadKeys = ['playerId'];
-    protected string $defaultErrorMessage = 'Could not get ladder data';
-
     private LadderEntryRepository $ladderEntryRepository;
 
     public function __construct(LadderEntryRepository $ladderEntryRepository)
@@ -18,22 +17,12 @@ class LadderService extends ApiService
         $this->ladderEntryRepository = $ladderEntryRepository;
     }
 
-    public function getLadderData(array $payload): array
+    public function getLadderData(Player $player): array
     {
         try {
-            $this->validatePayload($payload);
-
-            return [
-                'result' => true,
-                'ladderData' => $this->ladderEntryRepository->findLadderEntriesForMostGoalsScoredChallenge(
-                    (int)$payload['playerId']
-                )
-            ];
+            return $this->ladderEntryRepository->findLadderEntriesForMostGoalsScoredChallenge($player->getId());
         } catch (Throwable $e) {
-            return [
-                'result' => false,
-                'message' => $e->getMessage()
-            ];
+            throw new BadRequestException('Could not get ladder data');
         }
     }
 }
