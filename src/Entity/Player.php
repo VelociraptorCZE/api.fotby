@@ -44,6 +44,11 @@ class Player
      */
     private $ladderEntries;
 
+    /**
+     * @ORM\OneToOne(targetEntity=PlayerAccount::class, mappedBy="player", cascade={"persist", "remove"})
+     */
+    private $playerAccount;
+
     public function __construct()
     {
         $this->ladderEntries = new ArrayCollection();
@@ -127,6 +132,23 @@ class Player
             if ($ladderEntry->getPlayer() === $this) {
                 $ladderEntry->setPlayer(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getPlayerAccount(): ?PlayerAccount
+    {
+        return $this->playerAccount;
+    }
+
+    public function setPlayerAccount(PlayerAccount $playerAccount): self
+    {
+        $this->playerAccount = $playerAccount;
+
+        // set the owning side of the relation if necessary
+        if ($playerAccount->getPlayer() !== $this) {
+            $playerAccount->setPlayer($this);
         }
 
         return $this;
