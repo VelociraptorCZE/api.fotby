@@ -21,7 +21,6 @@ class LadderService
     {
         try {
             $ladderData = $this->ladderEntryRepository->findLadderEntriesForMostGoalsScoredChallenge($player->getId());
-            $ladderData['objective'] = 'Score as many goals as possible over any amount of matches';
             $ladderData['reward'] = 'Golden Covid Ball skin';
 
             return $ladderData;

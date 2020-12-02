@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -39,6 +40,7 @@ SQL;
 
         return [
             'bestPlayers' => $statement->fetchAllAssociative(),
+            'objective' => 'Score as many goals as possible over any amount of matches',
             'playerEntry' => $this->findLadderPlayerPositionForMostGoalsScoredChallenge($playerId)
         ];
     }
