@@ -73,13 +73,13 @@ class PlayerAccountSyncService extends ApiService
 
     private function syncLadderData(array $payload, Player $player): void
     {
-        $ladderEntry = $payload['ladderEntry'] ?? null;
+        $entry = json_decode($payload['ladderEntry'] ?? '', true);
 
-        if (isset($ladderEntry)) {
+        if (isset($entry)) {
             $ladderEntry = new LadderEntry;
             $ladderEntry->setPlayer($player);
-            $ladderEntry->setGoalsScored((int)$ladderEntry['goalsScored']);
-            $ladderEntry->setGoalsAgainst((int)$ladderEntry['goalsAgainst']);
+            $ladderEntry->setGoalsScored((int)$entry['goalsScored']);
+            $ladderEntry->setGoalsAgainst((int)$entry['goalsAgainst']);
 
             $this->entityManager->persist($ladderEntry);
             $this->entityManager->flush();
