@@ -31,6 +31,8 @@ class LadderConcludeCurrentChallengeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $now = date('Y-m-d');
+
         try {
             $players = $this->ladderEntryRepository->findWinningPlayersForMostGoalsScoredChallenge();
 
@@ -44,12 +46,19 @@ class LadderConcludeCurrentChallengeCommand extends Command
             }
         } catch (Throwable $e) {
             $output->writeln("<fg=red>Ladder conclusion failed: {$e->getMessage()}</>");
+            $this->log("[{$now}]: Ladder conclusion failed: {$e->getMessage()}");
 
             return Command::FAILURE;
         }
 
         $output->writeln('<fg=green>All players were awarded successfully</>');
+        $this->log("[{$now}]: Players were awarded successfully");
 
         return Command::SUCCESS;
+    }
+
+    private function log(string $message): void
+    {
+        file_put_contents(dirname(__DIR__) . '/../log/ladder-log.txt', "\n{$message}", FILE_APPEND);
     }
 }
