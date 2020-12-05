@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LadderEntry;
+use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use RuntimeException;
 
 /**
  * @method LadderEntry|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,12 +17,39 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LadderEntryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PlayerRepository $playerRepository;
+
+    public function __construct(ManagerRegistry $registry, PlayerRepository $playerRepository)
     {
         parent::__construct($registry, LadderEntry::class);
+        $this->playerRepository = $playerRepository;
     }
 
-    public function findLadderEntriesForMostGoalsScoredChallenge(int $playerId): array
+    /** @return Player[] */
+    public function findWinningPlayersForMostGoalsScoredChallenge(): array
+    {
+        $bestPlayers = $this->findBestPlayersForMostGoalsScoredChallenge();
+        $minimumGoals = end($bestPlayers)['value'] ?? null;
+
+        if ($minimumGoals === null) {
+            throw new RuntimeException('There is no player in ladder');
+        }
+
+        $sql = 'select player_id from ladder_entry group by player_id having sum(goals_scored) >= :minimumGoals';
+        $connection = $this->getEntityManager()->getConnection();
+
+        $statement = $connection->prepare($sql);
+        $statement->bindParam('minimumGoals', $minimumGoals);
+        $statement->execute();
+
+        $this->createQueryBuilder('ladderEntry')->delete()->getQuery()->execute();
+
+        return $this->playerRepository->findBy([
+            'id' => array_column($statement->fetchAllAssociative(), 'player_id')
+        ]);
+    }
+
+    public function findBestPlayersForMostGoalsScoredChallenge(): array
     {
         $sql = <<<SQL
         select 
@@ -38,8 +67,13 @@ SQL;
         $statement = $connection->prepare($sql);
         $statement->execute();
 
+        return $statement->fetchAllAssociative();
+    }
+
+    public function findLadderEntriesForMostGoalsScoredChallenge(int $playerId): array
+    {
         return [
-            'bestPlayers' => $statement->fetchAllAssociative(),
+            'bestPlayers' => $this->findBestPlayersForMostGoalsScoredChallenge(),
             'objective' => 'Score as many goals as possible over any amount of matches',
             'playerEntry' => $this->findLadderPlayerPositionForMostGoalsScoredChallenge($playerId)
         ];
